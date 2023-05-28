@@ -2,10 +2,8 @@
 import tkinter as tk
 import requests
 import datetime
-from config import APP_ID,API_KEY
-
-
-# ex=input("What exercise did you do?\n")
+from config import APP_ID,API_KEY,USERNAME,PASS
+from requests.auth import HTTPBasicAuth
 
 EXERCISE_ENDPOINT="https://trackapi.nutritionix.com/v2/natural/exercise"
 SHEETY_ENDPOINT="https://api.sheety.co/5031db1f0702a807ea33cc079d1a8309/myWorkouts/workouts"
@@ -38,7 +36,8 @@ def button_click():
                 "calories": exes["nf_calories"]
             }
         }
-        po = requests.post(url=SHEETY_ENDPOINT, json=par)
+        basic=HTTPBasicAuth(USERNAME,PASS)
+        po = requests.post(url=SHEETY_ENDPOINT, json=par,auth=basic)
 
 
 
@@ -57,7 +56,7 @@ input_field = tk.Entry(canvas)
 canvas.create_window(200, 150, window=input_field)
 
 # Create a button
-button = tk.Button(canvas, text="Log my Exercise", command=button_click, bg="blue")
+button = tk.Button(canvas, text="Log my Exercise", command=button_click,)
 canvas.create_window(200, 200, window=button)
 
 # Start the tkinter event loop
